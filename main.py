@@ -15,8 +15,8 @@ from sqlalchemy import create_engine, Column, String, Text, DateTime, Date, Inte
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session, relationship
 
-DATABASE_URL = "postgresql://postgres.jhvxqxaitksxueifsawe:LitperGarantias2024@aws-0-sa-east-1.pooler.supabase.com:5432/postgres"SECRET_KEY = os.getenv("JWT_SECRET_KEY", "secreto-cambiar")
-ALGORITHM = "HS256"
+DATABASE_URL = "postgresql://postgres.jhvxqxaitksxueifsawe:LitperGarantias2024@aws-0-sa-east-1.pooler.supabase.com:5432/postgres"
+SECRET_KEY = os.getenv("JWT_SECRET_KEY", "secreto-cambiar")ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 480
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
