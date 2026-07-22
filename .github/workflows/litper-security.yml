@@ -1,0 +1,39 @@
+name: Litper Security · Gitleaks + Semgrep
+
+# Escanea secrets (keys de Meta, Supabase, Shopify, Vercel) y vulnerabilidades
+# en cada push y pull request hacia la rama principal.
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+  schedule:
+    - cron: '0 12 * * 1'   # lunes 7am Bogota: escaneo semanal completo
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    name: Gitleaks (secrets)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  semgrep:
+    name: Semgrep (SAST)
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Semgrep
+        run: semgrep ci --config=auto
+        env:
+          SEMGREP_RULES: p/default p/secrets p/owasp-top-ten
